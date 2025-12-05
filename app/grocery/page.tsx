@@ -2,8 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Separator } from '@/components/ui/separator'
 import { Spinner } from '@/components/ui/spinner'
-import { Separator } from '@radix-ui/react-separator'
 import { ArrowLeft, ShoppingCart } from 'lucide-react'
 import { useRef, useState, useEffect } from 'react'
 
