@@ -446,7 +446,7 @@ export default function Meals() {
 					)}
 				</div>
 				<Pagination>
-					<PaginationContent>
+					<PaginationContent className='flex-wrap justify-center'>
 						{day > 1 && (
 							<PaginationItem>
 								<PaginationPrevious href={`/meals/${day - 1}`} />
