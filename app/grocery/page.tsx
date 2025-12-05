@@ -10,17 +10,17 @@ import { useRef, useState, useEffect } from 'react'
 export default function Grocery() {
 	const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>(
 		typeof window !== 'undefined' && localStorage
-			? JSON.parse(localStorage.getItem('groceries_done') as string)
+			? JSON.parse(localStorage.getItem('groceries_done') as string) || {}
 			: {}
 	)
 	const [grocery, _setGrocery] = useState(
 		typeof window !== 'undefined' && localStorage
-			? JSON.parse(localStorage.getItem('meals') as string).grocery
+			? JSON.parse(localStorage.getItem('meals') as string)?.grocery
 			: undefined
 	)
 	const [groceryTotal, _setGroceryTotal] = useState(
 		typeof window !== 'undefined' && localStorage
-			? JSON.parse(localStorage.getItem('meals') as string).grocery_total_rupiah
+			? JSON.parse(localStorage.getItem('meals') as string)?.grocery_total_rupiah
 			: undefined
 	)
 	const [pdfLoading, setPdfLoading] = useState(false)
