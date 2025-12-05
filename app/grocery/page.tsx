@@ -11,11 +11,14 @@ import { useRef, useState } from 'react'
 export default function Grocery() {
 	const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
 	const [grocery, _setGrocery] = useState(
-		JSON.parse(localStorage.getItem('meals') as string).grocery || undefined
+		localStorage
+			? JSON.parse(localStorage.getItem('meals') as string).grocery
+			: undefined
 	)
 	const [groceryTotal, _setGroceryTotal] = useState(
-		JSON.parse(localStorage.getItem('meals') as string).grocery_total_rupiah ||
-			undefined
+		localStorage
+			? JSON.parse(localStorage.getItem('meals') as string).grocery_total_rupiah
+			: undefined
 	)
 	const [pdfLoading, setPdfLoading] = useState(false)
 	const [shareLoading, setShareLoading] = useState(false)

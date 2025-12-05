@@ -46,7 +46,7 @@ export default function Meals() {
 	const [mealAlt, setMealAlt] = useState<any>(undefined)
 	const day = Number(usePathname().replace('/meals/', ''))
 	const [date, _setDate] = useState(
-		new Date(localStorage.getItem('now') as string) || undefined
+		localStorage ? new Date(localStorage.getItem('now') as string) : undefined
 	)
 	const [yesterday, _setYesterday] = useState(new Date())
 	const [tomorrow, _setTomorrow] = useState(new Date())
@@ -92,9 +92,11 @@ export default function Meals() {
 						.average_daily_nutrition
 				)
 			} else redirect('/form')
-			date.setDate(date.getDate() + day)
-			tomorrow.setDate(date.getDate() + 1)
-			yesterday.setDate(date.getDate() - 1)
+			if (date) {
+				date.setDate(date.getDate() + day)
+				tomorrow.setDate(date.getDate() + 1)
+				yesterday.setDate(date.getDate() - 1)
+			}
 			initialized.current = true
 		}
 	}, [])
@@ -320,11 +322,12 @@ export default function Meals() {
 							<div className='flex items-center gap-2 text-gray-600'>
 								<Calendar className='w-5 h-5' />
 								<p>
-									{date.toLocaleDateString('en-US', {
-										weekday: 'long',
-										day: 'numeric',
-										month: 'short',
-									})}
+									{date &&
+										date.toLocaleDateString('en-US', {
+											weekday: 'long',
+											day: 'numeric',
+											month: 'short',
+										})}
 								</p>
 							</div>
 							<p>Target: {preferences && preferences.goal}</p>
