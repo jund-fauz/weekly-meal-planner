@@ -1,7 +1,22 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'www.mealime.com',
+				port: '',
+				pathname: '/images/**',
+				search: '',
+			},
+		],
+	},
+	turbopack: {
+		resolveAlias: {
+			'html2canvas': 'html2canvas-pro',
+		},
+	},
+}
 
-export default nextConfig;
+export default nextConfig
