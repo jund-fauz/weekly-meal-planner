@@ -24,8 +24,6 @@ import Link from 'next/link'
 import { redirect, usePathname } from 'next/navigation'
 import { JSX, useEffect, useRef, useState } from 'react'
 import { useImmer } from 'use-immer'
-import html2canvas from 'html2canvas-pro'
-import jsPDF from 'jspdf'
 import { Spinner } from '@/components/ui/spinner'
 import {
 	Pagination,
@@ -119,7 +117,7 @@ export default function Meals() {
 		setOpen(false)
 	}
 
-	const generatePdf = (isShare = false) => {
+	const generatePdf = async (isShare = false) => {
 		if (
 			breakfastRef.current &&
 			lunchRef.current &&
@@ -128,6 +126,10 @@ export default function Meals() {
 		) {
 			if (!isShare) setPdfLoading(true)
 			else setShareLoading(true)
+			
+			const { default: html2canvas } = await import('html2canvas-pro')
+			const { default: jsPDF } = await import('jspdf')
+			
 			const pdf = new jsPDF({ format: 'a5' })
 			html2canvas(breakfastRef.current, { scale: 2 }).then((canvas) => {
 				const imgData = canvas.toDataURL('image/png')

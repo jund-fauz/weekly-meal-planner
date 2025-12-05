@@ -38,7 +38,9 @@ import { Button } from '@/components/ui/button'
 
 export default function Preferences() {
 	const [preferences, _setPreferences] = useState<any>(
-		localStorage ? JSON.parse(localStorage.getItem('preferences') as string) : undefined
+		typeof window !== 'undefined' && localStorage
+			? JSON.parse(localStorage.getItem('preferences') as string)
+			: undefined
 	)
 	const [calories, setCalories] = useState(1500)
 	const [goal, setGoal] = useState('Weight Loss')

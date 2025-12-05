@@ -4,26 +4,33 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Spinner } from '@/components/ui/spinner'
 import { Separator } from '@radix-ui/react-separator'
-import html2pdf from 'html2pdf.js'
 import { ArrowLeft, ShoppingCart } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 export default function Grocery() {
 	const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
 	const [grocery, _setGrocery] = useState(
-		localStorage
+		typeof window !== 'undefined' && localStorage
 			? JSON.parse(localStorage.getItem('meals') as string).grocery
 			: undefined
 	)
 	const [groceryTotal, _setGroceryTotal] = useState(
-		localStorage
+		typeof window !== 'undefined' && localStorage
 			? JSON.parse(localStorage.getItem('meals') as string).grocery_total_rupiah
 			: undefined
 	)
 	const [pdfLoading, setPdfLoading] = useState(false)
 	const [shareLoading, setShareLoading] = useState(false)
 	const divRef = useRef(null)
-	const totalItems = Object.values(grocery).reduce(
+	const [html2pdf, setHtml2pdf] = useState<any>(null)
+
+	useEffect(() => {
+		import('html2pdf.js').then((module) => {
+			setHtml2pdf(() => module.default)
+		})
+	}, [])
+
+	const totalItems = Object.values(grocery || {}).reduce(
 		(acc: number, cat: any) => acc + (Array.isArray(cat) ? cat.length : 0),
 		0
 	)
@@ -38,7 +45,7 @@ export default function Grocery() {
 	}
 
 	const generatePdf = (isShare = false) => {
-		if (divRef.current) {
+		if (divRef.current && html2pdf) {
 			if (!isShare) setPdfLoading(true)
 			else setShareLoading(true)
 			if (isShare)
@@ -53,7 +60,7 @@ export default function Grocery() {
 					})
 					.from(divRef.current)
 					.outputPdf('blob')
-					.then((pdfBlob) => {
+					.then((pdfBlob: any) => {
 						const file = new File([pdfBlob], 'Grocery List.pdf', {
 							type: 'application/pdf',
 						})
@@ -120,7 +127,7 @@ export default function Grocery() {
 					className='grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8'
 					ref={divRef}
 				>
-					{Object.entries(grocery)
+					{grocery && Object.entries(grocery)
 						.filter(([, categoryData]) => Array.isArray(categoryData))
 						.map(([category, categoryData]: any, categoryIndex: number) => (
 							<div
