@@ -81,6 +81,7 @@ export default function Preferences() {
 			localStorage.setItem('preferences', JSON.stringify(formState.input))
 			localStorage.setItem('meals', JSON.stringify(formState.data))
 			localStorage.setItem('now', new Date().toISOString())
+			localStorage.removeItem('groceries_done')
 			redirect('/meals/1')
 		}
 	}, [formState])

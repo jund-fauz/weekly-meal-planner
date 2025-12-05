@@ -8,7 +8,11 @@ import { ArrowLeft, ShoppingCart } from 'lucide-react'
 import { useRef, useState, useEffect } from 'react'
 
 export default function Grocery() {
-	const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
+	const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>(
+		typeof window !== 'undefined' && localStorage
+			? JSON.parse(localStorage.getItem('groceries_done') as string)
+			: {}
+	)
 	const [grocery, _setGrocery] = useState(
 		typeof window !== 'undefined' && localStorage
 			? JSON.parse(localStorage.getItem('meals') as string).grocery
@@ -29,6 +33,10 @@ export default function Grocery() {
 			setHtml2pdf(() => module.default)
 		})
 	}, [])
+
+	useEffect(() =>
+		localStorage.setItem('groceries_done', JSON.stringify(checkedItems))
+	, [checkedItems])
 
 	const totalItems = Object.values(grocery || {}).reduce(
 		(acc: number, cat: any) => acc + (Array.isArray(cat) ? cat.length : 0),
@@ -127,60 +135,61 @@ export default function Grocery() {
 					className='grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8'
 					ref={divRef}
 				>
-					{grocery && Object.entries(grocery)
-						.filter(([, categoryData]) => Array.isArray(categoryData))
-						.map(([category, categoryData]: any, categoryIndex: number) => (
-							<div
-								key={categoryIndex}
-								className='bg-white rounded-xl shadow-lg overflow-hidden'
-							>
-								<div className='bg-linear-to-r from-emerald-600 to-teal-600 px-6 py-4'>
-									<h3 className='text-white'>
-										{category.includes('_')
-											? category.replaceAll('_', ' ')
-											: category}
-									</h3>
-								</div>
-								<div className='p-6'>
-									<ul className='space-y-3'>
-										{categoryData.map((item: any, itemIndex: number) => {
-											const key = `${categoryIndex}-${itemIndex}`
-											const [isChecked, setIsChecked] = useState(
-												checkedItems[key] || false
-											)
+					{grocery &&
+						Object.entries(grocery)
+							.filter(([, categoryData]) => Array.isArray(categoryData))
+							.map(([category, categoryData]: any, categoryIndex: number) => (
+								<div
+									key={categoryIndex}
+									className='bg-white rounded-xl shadow-lg overflow-hidden'
+								>
+									<div className='bg-linear-to-r from-emerald-600 to-teal-600 px-6 py-4'>
+										<h3 className='text-white'>
+											{category.includes('_')
+												? category.replaceAll('_', ' ')
+												: category}
+										</h3>
+									</div>
+									<div className='p-6'>
+										<ul className='space-y-3'>
+											{categoryData.map((item: any, itemIndex: number) => {
+												const key = `${categoryIndex}-${itemIndex}`
+												const [isChecked, setIsChecked] = useState(
+													checkedItems[key] || false
+												)
 
-											return (
-												<li key={itemIndex}>
-													<label className='flex items-center gap-3 cursor-pointer group'>
-														<div className='relative'>
-															<Checkbox
-																checked={isChecked}
-																onCheckedChange={(state: boolean) => {
-																	toggleItem(categoryIndex, itemIndex)
-																	setIsChecked(state)
-																}}
-																className='w-5 h-5 rounded border-2 border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer'
-															/>
-														</div>
-														<div className='flex-1'>
-															<span
-																className={`${
-																	isChecked
-																		? 'line-through text-gray-400'
-																		: 'text-gray-800'
-																} transition-all`}
-															>
-																{item}
-															</span>
-														</div>
-													</label>
-												</li>
-											)
-										})}
-									</ul>
+												return (
+													<li key={itemIndex}>
+														<label className='flex items-center gap-3 cursor-pointer group'>
+															<div className='relative'>
+																<Checkbox
+																	checked={isChecked}
+																	onCheckedChange={(state: boolean) => {
+																		toggleItem(categoryIndex, itemIndex)
+																		setIsChecked(state)
+																	}}
+																	className='w-5 h-5 rounded border-2 border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer'
+																/>
+															</div>
+															<div className='flex-1'>
+																<span
+																	className={`${
+																		isChecked
+																			? 'line-through text-gray-400'
+																			: 'text-gray-800'
+																	} transition-all`}
+																>
+																	{item}
+																</span>
+															</div>
+														</label>
+													</li>
+												)
+											})}
+										</ul>
+									</div>
 								</div>
-							</div>
-						))}
+							))}
 				</div>
 				<p className='my-3'>
 					Estimated total: Rp
