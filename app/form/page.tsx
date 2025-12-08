@@ -103,7 +103,7 @@ export default function Preferences() {
 							✨ AI-powered meal planning tailored to your goals
 						</FieldDescription>
 					</div>
-					<FieldGroup className='sm:space-y-8'>
+					<FieldGroup>
 						<Field className='bg-linear-to-br from-emerald-50 to-emerald-100 p-6 rounded-xl border border-emerald-200'>
 							<FieldLabel
 								htmlFor='goal'
