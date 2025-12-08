@@ -166,38 +166,6 @@ export default function Preferences() {
 								</div>
 							</RadioGroup>
 						</Field>
-						<Field className='bg-linear-to-br from-purple-50 to-purple-100 p-6 rounded-xl border border-purple-200'>
-							<FieldLabel
-								htmlFor='diet'
-								className='text-lg font-semibold text-purple-900 mb-4'
-							>
-								🥗 Diet type
-							</FieldLabel>
-							<Select
-								defaultValue={
-									preferences
-										? (decapitalize(preferences.diet) as string)
-										: 'standard'
-								}
-								name='diet'
-							>
-								<SelectTrigger className='bg-white rounded-lg border border-purple-300 focus:ring-2 focus:ring-purple-500'>
-									<SelectValue placeholder='Select a diet type' />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectGroup>
-										<SelectLabel className='font-semibold'>
-											Diet type
-										</SelectLabel>
-										<SelectItem value='standard'>Standard</SelectItem>
-										<SelectItem value='vegetarian'>Vegetarian</SelectItem>
-										<SelectItem value='vegan'>Vegan</SelectItem>
-										<SelectItem value='keto'>Keto</SelectItem>
-										<SelectItem value='low-carb'>Low-Carb</SelectItem>
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-						</Field>
 						<Field className='bg-linear-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200'>
 							<FieldLabel
 								htmlFor='calories'
@@ -255,7 +223,38 @@ export default function Preferences() {
 								Based on your goal: <span className='font-bold'>{goal}</span>
 							</p>
 						</Field>
-
+						<Field className='bg-linear-to-br from-purple-50 to-purple-100 p-6 rounded-xl border border-purple-200'>
+							<FieldLabel
+								htmlFor='diet'
+								className='text-lg font-semibold text-purple-900 mb-4'
+							>
+								🥗 Diet type
+							</FieldLabel>
+							<Select
+								defaultValue={
+									preferences
+										? (decapitalize(preferences.diet) as string)
+										: 'standard'
+								}
+								name='diet'
+							>
+								<SelectTrigger className='bg-white rounded-lg border border-purple-300 focus:ring-2 focus:ring-purple-500'>
+									<SelectValue placeholder='Select a diet type' />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										<SelectLabel className='font-semibold'>
+											Diet type
+										</SelectLabel>
+										<SelectItem value='standard'>Standard</SelectItem>
+										<SelectItem value='vegetarian'>Vegetarian</SelectItem>
+										<SelectItem value='vegan'>Vegan</SelectItem>
+										<SelectItem value='keto'>Keto</SelectItem>
+										<SelectItem value='low-carb'>Low-Carb</SelectItem>
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						</Field>
 						<Field className='bg-linear-to-br from-orange-50 to-orange-100 p-6 rounded-xl border border-orange-200'>
 							<FieldLabel
 								htmlFor='cuisine'
@@ -352,9 +351,7 @@ export default function Preferences() {
 								id='allergies'
 								name='allergies'
 								type='text'
-								defaultValue={
-									preferences && preferences.allergies
-								}
+								defaultValue={preferences && preferences.allergies}
 								placeholder='Enter your allergies...'
 								className='bg-white rounded-lg border border-red-300 focus:ring-2 focus:ring-red-500 focus:border-transparent'
 							/>
