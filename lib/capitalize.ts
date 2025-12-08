@@ -1,10 +1,15 @@
 export function capitalize(text: string): string {
-	if (text.includes('-')) {
+	if (text.includes('-'))
 		return text
 			.split('-')
 			.map((eachText) => eachText.charAt(0).toUpperCase() + eachText.slice(1))
 			.join(' ')
-	} else if (text.includes(','))
+	else if (text.includes(', '))
+		return text
+			.split(', ')
+			.map((eachText) => eachText.charAt(0).toUpperCase() + eachText.slice(1))
+			.join(', ')
+	else if (text.includes(','))
 		return text
 			.split(',')
 			.map((eachText) => eachText.charAt(0).toUpperCase() + eachText.slice(1))

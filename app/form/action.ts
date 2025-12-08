@@ -9,12 +9,8 @@ export const input = async (prevState: any, formData: FormData) => {
 	const calories = formData.get('calories')
 	const diet = capitalize(formData.get('diet')?.toString() as string)
 	const dislikes = capitalize(formData.get('dislikes')?.toString() as string)
-	const allergyLists = ['nuts', 'dairy', 'gluten', 'seafood', 'eggs', 'soy']
 	const cuisineLists = ['indonesian', 'western', 'asian', 'mediterranean']
-	let allergies = allergyLists
-		.filter((allergy) => formData.get(allergy))
-		.map((allergy) => capitalize(allergy))
-		.join(', ')
+	let allergies = capitalize(formData.get('allergies')?.toString() as string)
 	let cuisines = cuisineLists
 		.filter((cuisine) => formData.get(cuisine))
 		.map((cuisine) => capitalize(cuisine))
