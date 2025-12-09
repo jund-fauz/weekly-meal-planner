@@ -46,8 +46,6 @@ export default function Meals() {
 	const [date, _setDate] = useState(
 		localStorage ? new Date(localStorage.getItem('now') as string) : undefined
 	)
-	const [yesterday, _setYesterday] = useState(new Date())
-	const [tomorrow, _setTomorrow] = useState(new Date())
 	const initialized = useRef(false)
 	const [open, setOpen] = useState(false)
 	const [limitOpen, setLimitOpen] = useState(false)
@@ -68,8 +66,15 @@ export default function Meals() {
 				<PaginationLink
 					{...(day !== index && { href: `/meals/${index}` })}
 					isActive={day === index}
+					className='w-fit px-2'
 				>
-					{index}
+					{new Date(
+						date?.getFullYear() as number,
+						date?.getMonth() as number,
+						date?.getDate() as number + index - 1
+					).toLocaleDateString('en-US', {
+						weekday: 'long',
+					})}
 				</PaginationLink>
 			</PaginationItem>
 		)
@@ -92,8 +97,6 @@ export default function Meals() {
 			} else redirect('/form')
 			if (date) {
 				date.setDate(date.getDate() + day)
-				tomorrow.setDate(date.getDate() + 1)
-				yesterday.setDate(date.getDate() - 1)
 			}
 			initialized.current = true
 		}
@@ -343,34 +346,42 @@ export default function Meals() {
 							<div className='grid grid-cols-2 gap-x-2'>
 								<div className='text-emerald-900'>
 									{meals &&
-										(meals.breakfast.calories +
+										(
+											meals.breakfast.calories +
 											meals.lunch.calories +
 											meals.dinner.calories +
-											meals.snack.calories).toFixed(1)}{' '}
+											meals.snack.calories
+										).toFixed(1)}{' '}
 									calories
 								</div>
 								<div className='text-emerald-900'>
 									{meals &&
-										(meals.breakfast.carbs +
+										(
+											meals.breakfast.carbs +
 											meals.lunch.carbs +
 											meals.dinner.carbs +
-											meals.snack.carbs).toFixed(1)}{' '}
+											meals.snack.carbs
+										).toFixed(1)}{' '}
 									carbs
 								</div>
 								<div className='text-emerald-900'>
 									{meals &&
-										(meals.breakfast.proteins +
+										(
+											meals.breakfast.proteins +
 											meals.lunch.proteins +
 											meals.dinner.proteins +
-											meals.snack.proteins).toFixed(1)}{' '}
+											meals.snack.proteins
+										).toFixed(1)}{' '}
 									proteins
 								</div>
 								<div className='text-emerald-900'>
 									{meals &&
-										(meals.breakfast.fats +
+										(
+											meals.breakfast.fats +
 											meals.lunch.fats +
 											meals.dinner.fats +
-											meals.snack.fats).toFixed(1)}{' '}
+											meals.snack.fats
+										).toFixed(1)}{' '}
 									fats
 								</div>
 							</div>
