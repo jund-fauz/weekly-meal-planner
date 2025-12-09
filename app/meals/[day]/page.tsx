@@ -343,34 +343,34 @@ export default function Meals() {
 							<div className='grid grid-cols-2 gap-x-2'>
 								<div className='text-emerald-900'>
 									{meals &&
-										meals.breakfast.calories +
+										(meals.breakfast.calories +
 											meals.lunch.calories +
 											meals.dinner.calories +
-											meals.snack.calories}{' '}
+											meals.snack.calories).toFixed(1)}{' '}
 									calories
 								</div>
 								<div className='text-emerald-900'>
 									{meals &&
-										meals.breakfast.carbs +
+										(meals.breakfast.carbs +
 											meals.lunch.carbs +
 											meals.dinner.carbs +
-											meals.snack.carbs}{' '}
+											meals.snack.carbs).toFixed(1)}{' '}
 									carbs
 								</div>
 								<div className='text-emerald-900'>
 									{meals &&
-										meals.breakfast.proteins +
+										(meals.breakfast.proteins +
 											meals.lunch.proteins +
 											meals.dinner.proteins +
-											meals.snack.proteins}{' '}
+											meals.snack.proteins).toFixed(1)}{' '}
 									proteins
 								</div>
 								<div className='text-emerald-900'>
 									{meals &&
-										meals.breakfast.fats +
+										(meals.breakfast.fats +
 											meals.lunch.fats +
 											meals.dinner.fats +
-											meals.snack.fats}{' '}
+											meals.snack.fats).toFixed(1)}{' '}
 									fats
 								</div>
 							</div>
