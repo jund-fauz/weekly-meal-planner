@@ -71,7 +71,7 @@ export default function Meals() {
 					{new Date(
 						date?.getFullYear() as number,
 						date?.getMonth() as number,
-						date?.getDate() as number + index - 1
+						date?.getDate() as number + index - day
 					).toLocaleDateString('en-US', {
 						weekday: 'long',
 					})}
