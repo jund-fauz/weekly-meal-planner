@@ -19,7 +19,7 @@ import {
 	DialogTitle,
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
-import { ArrowLeft, ArrowRight, Calendar, TrendingUp } from 'lucide-react'
+import { ArrowLeft, Calendar, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { redirect, usePathname } from 'next/navigation'
 import { JSX, useEffect, useRef, useState } from 'react'
@@ -126,10 +126,10 @@ export default function Meals() {
 		) {
 			if (!isShare) setPdfLoading(true)
 			else setShareLoading(true)
-			
+
 			const { default: html2canvas } = await import('html2canvas-pro')
 			const { default: jsPDF } = await import('jspdf')
-			
+
 			const pdf = new jsPDF({ format: 'a5' })
 			html2canvas(breakfastRef.current, { scale: 2 }).then((canvas) => {
 				const imgData = canvas.toDataURL('image/png')
@@ -318,7 +318,7 @@ export default function Meals() {
 			</nav>
 			<header className='bg-white shadow-sm border-b'>
 				<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'>
-					<div className='flex items-center justify-between'>
+					<div className='flex items-center justify-center min-[548px]:justify-between flex-wrap gap-4'>
 						<div className='flex flex-col gap-1'>
 							<h1 className='text-emerald-700'>📅 Your 7-Day Meal Plan</h1>
 							<div className='flex items-center gap-2 text-gray-600'>
@@ -329,7 +329,8 @@ export default function Meals() {
 											weekday: 'long',
 											day: 'numeric',
 											month: 'short',
-										})}
+										})}{' '}
+									(Hari ke-{day})
 								</p>
 							</div>
 							<p>Target: {preferences && preferences.goal}</p>
@@ -339,8 +340,39 @@ export default function Meals() {
 								<TrendingUp className='w-5 h-5 text-emerald-700' />
 								<span className='text-emerald-700'>Daily Total</span>
 							</div>
-							<div className='text-emerald-900'>
-								{preferences && preferences.calories} calories
+							<div className='grid grid-cols-2 gap-x-2'>
+								<div className='text-emerald-900'>
+									{meals &&
+										meals.breakfast.calories +
+											meals.lunch.calories +
+											meals.dinner.calories +
+											meals.snack.calories}{' '}
+									calories
+								</div>
+								<div className='text-emerald-900'>
+									{meals &&
+										meals.breakfast.carbs +
+											meals.lunch.carbs +
+											meals.dinner.carbs +
+											meals.snack.carbs}{' '}
+									carbs
+								</div>
+								<div className='text-emerald-900'>
+									{meals &&
+										meals.breakfast.proteins +
+											meals.lunch.proteins +
+											meals.dinner.proteins +
+											meals.snack.proteins}{' '}
+									proteins
+								</div>
+								<div className='text-emerald-900'>
+									{meals &&
+										meals.breakfast.fats +
+											meals.lunch.fats +
+											meals.dinner.fats +
+											meals.snack.fats}{' '}
+									fats
+								</div>
 							</div>
 						</div>
 					</div>
@@ -387,39 +419,7 @@ export default function Meals() {
 						/>
 					</div>
 				)}
-				<div className='flex justify-between items-center'>
-					<div>
-						<p>
-							Total:{' '}
-							{meals &&
-								meals.breakfast.calories +
-									meals.lunch.calories +
-									meals.dinner.calories +
-									meals.snack.calories}{' '}
-							kcal ✓
-						</p>
-						<p>
-							Protein:{' '}
-							{meals &&
-								meals.breakfast.proteins +
-									meals.lunch.proteins +
-									meals.dinner.proteins +
-									meals.snack.proteins}
-							g | Carbs:{' '}
-							{meals &&
-								meals.breakfast.carbs +
-									meals.lunch.carbs +
-									meals.dinner.carbs +
-									meals.snack.carbs}
-							g | Fat:{' '}
-							{meals &&
-								meals.breakfast.fats +
-									meals.lunch.fats +
-									meals.dinner.fats +
-									meals.snack.fats}
-							g
-						</p>
-					</div>
+				<div className='flex justify-end'>
 					{isReg ? (
 						<div className='flex gap-2'>
 							<Button className='hover:cursor-pointer' onClick={cancelReg}>
